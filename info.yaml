@@ -1,14 +1,17 @@
+yaml_version: 1
+
 project:
   title:      "4-bit Ripple Carry Adder"
   author:     "Efaz M. Afnan Feroz"
   discord:    ""
   description: >
-    A 4-bit Ripple Carry Adder built from four full-adder modules.
-    A[3:0] on ui_in[3:0], B[3:0] on ui_in[7:4].
-    Sum S[3:0] on uo_out[3:0], carry-out on uo_out[4].
+    A 4-bit Ripple Carry Adder built from four full-adder modules
+    in a ripple-carry chain. Inputs A[3:0] on ui_in[3:0] and
+    B[3:0] on ui_in[7:4]. Sum S[3:0] on uo_out[3:0],
+    carry-out on uo_out[4]. Purely combinational — no clock needed.
   language:   "Verilog"
   clock_hz:   0
-
+  tiles:      "1x1"
   top_module: "tt_um_efaz_afnan_feroz_4bit_rca"
 
   source_files:
@@ -33,3 +36,42 @@ project:
     - none
     - none
     - none
+
+  bidirectional:
+    - none
+    - none
+    - none
+    - none
+    - none
+    - none
+    - none
+    - none
+
+pinout:
+  ui:
+    - "A[0]"
+    - "A[1]"
+    - "A[2]"
+    - "A[3]"
+    - "B[0]"
+    - "B[1]"
+    - "B[2]"
+    - "B[3]"
+  uo:
+    - "S[0]"
+    - "S[1]"
+    - "S[2]"
+    - "S[3]"
+    - "Cout"
+    - "none"
+    - "none"
+    - "none"
+  uio:
+    - "none"
+    - "none"
+    - "none"
+    - "none"
+    - "none"
+    - "none"
+    - "none"
+    - "none"
