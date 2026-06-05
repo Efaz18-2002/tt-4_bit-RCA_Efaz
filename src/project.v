@@ -1,27 +1,60 @@
-/*
- * Copyright (c) 2024 Your Name
- * SPDX-License-Identifier: Apache-2.0
- */
-
 `default_nettype none
 
-module tt_um_example (
-    input  wire [7:0] ui_in,    // Dedicated inputs
-    output wire [7:0] uo_out,   // Dedicated outputs
-    input  wire [7:0] uio_in,   // IOs: Input path
-    output wire [7:0] uio_out,  // IOs: Output path
-    output wire [7:0] uio_oe,   // IOs: Enable path (active high: 0=input, 1=output)
-    input  wire       ena,      // always 1 when the design is powered, so you can ignore it
-    input  wire       clk,      // clock
-    input  wire       rst_n     // reset_n - low to reset
+
+module full_adder ( input A , B , C_in , output S , C_out ) ;
+    wire w1 , w2 , w3 ;
+
+    assign w1 = A ^ B ;
+    assign S  = w1 ^ C_in ;
+    assign w2 = w1 & C_in ;
+    assign w3 = A & B ;
+    or ( C_out , w2 , w3 ) ;
+
+endmodule
+
+
+module Four_bit_RCA (
+    input  [3:0] A ,
+    input  [3:0] B ,
+    input        Cin ,
+    output [3:0] S ,
+    output       Cout
+) ;
+    wire w0 , w1 , w2 ;
+
+    full_adder FA0 ( A[0] , B[0] , Cin , S[0] , w0 ) ;
+    full_adder FA1 ( A[1] , B[1] , w0  , S[1] , w1 ) ;
+    full_adder FA2 ( A[2] , B[2] , w1  , S[2] , w2 ) ;
+    full_adder FA3 ( A[3] , B[3] , w2  , S[3] , Cout ) ;
+
+endmodule
+
+// ── Tiny Tapeout wrapper — new, connects TT pins to your design-AI generated
+module tt_um_efaz_afnan_feroz_4bit_rca (
+    input  wire [7:0] ui_in,
+    output wire [7:0] uo_out,
+    input  wire [7:0] uio_in,
+    output wire [7:0] uio_out,
+    output wire [7:0] uio_oe,
+    input  wire       ena,
+    input  wire       clk,
+    input  wire       rst_n
 );
+    wire [3:0] S;
+    wire       Cout;
 
-  // All output pins must be assigned. If not used, assign to 0.
-  assign uo_out  = ui_in + uio_in;  // Example: ou_out is the sum of ui_in and uio_in
-  assign uio_out = 0;
-  assign uio_oe  = 0;
+    // Instantiate your original design — Cin hardwired 0
+    // (no spare input pin on TT chip)
+    Four_bit_RCA rca (
+        .A    ( ui_in[3:0] ),
+        .B    ( ui_in[7:4] ),
+        .Cin  ( 1'b0       ),
+        .S    ( S          ),
+        .Cout ( Cout       )
+    );
 
-  // List all unused inputs to prevent warnings
-  wire _unused = &{ena, clk, rst_n, 1'b0};
+    assign uo_out  = { 3'b0 , Cout , S };
+    assign uio_out = 8'b0;
+    assign uio_oe  = 8'b0;
 
 endmodule
