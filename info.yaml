@@ -1,15 +1,19 @@
 project:
-  title:   "4-bit Ripple Carry Adder"
-  author:  "Efaz M. Afnan Feroz"
-  discord: ""
+  title:      "4-bit Ripple Carry Adder"
+  author:     "Efaz M. Afnan Feroz"
+  discord:    ""
   description: >
-    A hierarchical 4-bit Ripple Carry Adder built from four
-    full-adder modules. Inputs A[3:0] on ui_in[3:0] and
-    B[3:0] on ui_in[7:4]. Sum output S[3:0] on uo_out[3:0],
-    carry-out on uo_out[4].
-  language: "Verilog"
-  clock_hz: 0
-  
+    A 4-bit Ripple Carry Adder built from four full-adder modules.
+    A[3:0] on ui_in[3:0], B[3:0] on ui_in[7:4].
+    Sum S[3:0] on uo_out[3:0], carry-out on uo_out[4].
+  language:   "Verilog"
+  clock_hz:   0
+
+  top_module: "tt_um_efaz_afnan_feroz_4bit_rca"
+
+  source_files:
+    - project.v
+
   inputs:
     - A[0]
     - A[1]
@@ -26,6 +30,6 @@ project:
     - S[2]
     - S[3]
     - Cout
-    - unused
-    - unused
-    - unused
+    - none
+    - none
+    - none
