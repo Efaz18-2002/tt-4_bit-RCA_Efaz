@@ -1,20 +1,32 @@
-<!---
-
-This file is used to generate your project datasheet. Please fill in the information below and delete any unused
-sections.
-
-You can also include images in this folder and reference them in the markdown. Each image must be less than
-512 kb in size, and the combined size of all images must be less than 1 MB.
--->
+---
+title: 4-bit Ripple Carry Adder
+---
 
 ## How it works
 
-Explain how your project works
+This design implements a 4-bit Ripple Carry Adder (RCA) built
+from four 1-bit full-adder modules connected in a ripple-carry
+chain. Each full adder computes the sum and carry-out of its
+bit position. The carry-out of each stage feeds into the
+carry-in of the next stage, propagating from the
+least-significant bit (FA0) to the most-significant bit (FA3).
+
+The carry-in of FA0 is hardwired to 0.
+
+Inputs A[3:0] are mapped to ui_in[3:0].
+Inputs B[3:0] are mapped to ui_in[7:4].
+The 4-bit sum S[3:0] appears on uo_out[3:0].
+The carry-out appears on uo_out[4].
+The design is purely combinational — no clock is used.
 
 ## How to test
 
-Explain how to use your project
+Set ui_in[3:0] to the 4-bit value of A and ui_in[7:4] to the
+4-bit value of B. Read the sum from uo_out[3:0] and the
+carry-out from uo_out[4].
 
-## External hardware
+Example 1: A=7 (0111), B=8 (1000) → ui_in=10000111
+Expected: S=15 (1111), Cout=0 → uo_out=00001111
 
-List external hardware used in your project (e.g. PMOD, LED display, etc), if any
+Example 2: A=15 (1111), B=15 (1111) → ui_in=11111111
+Expected: S=14 (1110), Cout=1 → uo_out=00011110
